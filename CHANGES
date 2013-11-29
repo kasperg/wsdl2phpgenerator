@@ -1,4 +1,26 @@
 
+2.1.0 / 2013-11-30 
+==================
+
+ * Split release process into two tasks: Preparing and creating.
+ * Add build-phar task to build file
+ * Update PHP file containing version after refactoring to Symfony Console.
+ * Reduce Phar size by only including non-dev directories and required files.
+ * Replace compression with compacting for compatibility issues.
+ * Use new main from symphony console refactoring in Phar
+ * Add missing Psr/Log dependency
+ * Replace Coveralls with Scrutinizer for code coverage
+ * Do not include phar file with codebase
+ * Added phar package of project
+ * Add Phing build script to automate releases.
+ * Improve backwards compatibility for console application
+ * Replace Symfony with Composer for class loading.
+ * Refactor to use Symfony Console component instead of custom CLI code.
+ * how to install
+ * Update casing of unit test directory to match namespace name
+ * Adjust code analysis configuration
+ * Use --prefer-source when installing dependencies on travis.
+
 2.0.3 / 2013-10-30 
 ==================
 
