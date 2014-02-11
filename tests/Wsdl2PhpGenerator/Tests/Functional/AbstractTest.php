@@ -9,7 +9,7 @@ class AbstractTest extends Wsdl2PhpGeneratorFunctionalTestCase {
 
     protected function getWsdlPath()
     {
-        return $this->fixtureDir . '/wsdl/abstract/abstract.wsdl';
+        return $this->fixtureDir . '/abstract/abstract.wsdl';
     }
 
     public function testAbstract()
