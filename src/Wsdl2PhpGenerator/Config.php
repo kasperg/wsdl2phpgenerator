@@ -23,6 +23,7 @@ class Config implements ConfigInterface
     /**
      * Decides if the output should protect all classes with if(!class_exists statements
      *
+     *
      * @var bool
      */
     private $classExists;

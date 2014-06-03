@@ -45,6 +45,7 @@ abstract class Wsdl2PhpGeneratorFunctionalTestCase extends PHPUnit_Framework_Tes
         $this->outputDir = 'tests/generated/' . $class->getShortName();
         $this->generator = new Generator();
         $this->config = new Config($this->getWsdlPath(), $this->outputDir);
+        $this->config->setCreateAccessors(true);
 
         // We do not execute the code generation here to allow individual test cases
         // to update the configuration further before generating.
@@ -198,7 +199,6 @@ abstract class Wsdl2PhpGeneratorFunctionalTestCase extends PHPUnit_Framework_Tes
         // Attempt to do some simple extraction of type declaration from the
         // DocBlock.
         if (preg_match('/@var (\w+)/', $comment, $matches)) {
-            $value = $attribute->getValue($object);
             $docBlockType = $matches[1];
         }
 
