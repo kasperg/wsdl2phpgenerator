@@ -7,6 +7,7 @@ namespace Wsdl2PhpGenerator\Xml;
 use DOMDocument;
 use DOMElement;
 use Exception;
+use Zend\Uri\Uri;
 
 /**
  * A SchemaDocument represents an XML element which contains type elements.
@@ -17,11 +18,11 @@ class SchemaDocument extends XmlNode
 {
 
     /**
-     * The url representing the location of the schema.
+     * The url or path representing the location of the schema.
      *
      * @var string
      */
-    protected $url;
+    protected $uri;
 
 
     /**
@@ -38,31 +39,28 @@ class SchemaDocument extends XmlNode
      *
      * @var string[]
      */
-    protected static $loadedUrls;
+    protected static $loadedUris;
 
-    public function __construct($xsdUrl)
+    public function __construct($xsdUri)
     {
-        $this->url = $xsdUrl;
+        $this->uri = $this->resolveUri($xsdUri);
 
         $document = new DOMDocument();
-        $loaded = $document->load($xsdUrl);
+        $loaded = $document->load($xsdUri);
         if (!$loaded) {
-            throw new Exception('Unable to load XML from '. $xsdUrl);
+            throw new Exception('Unable to load XML from '. $xsdUri);
         }
         parent::__construct($document, $document->documentElement);
+
         // Register the schema to avoid cyclic imports.
-        self::$loadedUrls[] = $xsdUrl;
+        self::$loadedUris[] = $xsdUri;
 
         // Locate and instantiate schemas which are imported by the current schema.
         $this->imports = array();
         foreach ($this->xpath('//wsdl:import/@location|//s:import/@schemaLocation') as $import) {
-            $importUrl = $import->value;
-            if (strpos($importUrl, '//') === false) {
-                $importUrl = dirname($xsdUrl) . '/' . $importUrl;
-            }
-
-            if (!in_array($importUrl, self::$loadedUrls)) {
-                $this->imports[] = new SchemaDocument($importUrl);
+            $importUri = $this->resolveUri($import->value, $xsdUri);
+            if (!in_array($importUri, self::$loadedUris)) {
+                $this->imports[] = new SchemaDocument($importUri);
             }
         }
     }
@@ -93,4 +91,29 @@ class SchemaDocument extends XmlNode
 
         return $type;
     }
+
+    /**
+     * Returns the absolute uri to a file.
+     *
+     * @param string $uri An absolute or relative url or path to a file.
+     * @param string $baseUri The base for the uri. Cannot be null for relative uris.
+     * @return string The absolute uri to the file.
+     */
+    protected function resolveUri($uri, $baseUri = null)
+    {
+        $absoluteUri = null;
+
+        if (filter_var($uri, FILTER_VALIDATE_URL)) {
+            $absoluteUri = $uri;
+        } elseif (filter_var($baseUri, FILTER_VALIDATE_URL)) {
+            $absoluteUri = Uri::merge($baseUri, $uri)->toString();
+        } elseif (!empty($baseUri)) {
+            $absoluteUri = realpath(dirname($baseUri) . DIRECTORY_SEPARATOR . $uri);
+        } else {
+            $absoluteUri = realpath($uri);
+        }
+
+        return $absoluteUri;
+    }
+
 }

@@ -7,8 +7,9 @@
     "directories": "Only include vendor directories that are part of require. This avoids unnecessary dev dependencies.",
     "directories": [
         "vendor/composer",
+		"vendor/psr",
         "vendor/symfony",
-        "vendor/psr",
+		"vendor/zendframework",
         "lib",
         "src"
     ],

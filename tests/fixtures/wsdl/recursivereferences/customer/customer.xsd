@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="urn:www.example.org:customer" xmlns:tns="urn:www.example.org:customer"
+            xmlns:prj="urn:www.example.org:project">
+
+    <xsd:import namespace="urn:www.example.org:project"
+                schemaLocation="../project/project.xsd"></xsd:import>
+
+    <xsd:complexType name="Customer">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string" minOccurs="1"
+                         maxOccurs="1"></xsd:element>
+            <xsd:element name="project" type="prj:Project" minOccurs="1"
+                         maxOccurs="unbounded"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

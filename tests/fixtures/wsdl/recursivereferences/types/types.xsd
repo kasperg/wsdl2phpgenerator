@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="urn:www.example.org:abstract" xmlns:tns="urn:www.example.org:abstract"
+            xmlns:prj="urn:www.example.org:project" xmlns:cus="urn:www.example.org:customer">
+    <xsd:import namespace="urn:www.example.org:project"
+                schemaLocation="../project/project.xsd"></xsd:import>
+    <xsd:import namespace="urn:www.example.org:customer"
+                schemaLocation="../customer/customer.xsd"></xsd:import>
+    <xsd:element name="project" type="prj:Project"></xsd:element>
+    <xsd:element name="customer" type="cus:Customer"></xsd:element>
+</xsd:schema>
