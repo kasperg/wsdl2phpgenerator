@@ -12,7 +12,7 @@ php:
 env:
   - SYMFONY_VERSION="~2.3"
   # Test against previous minor releases of Symfony 2.x to ensure that we
-  # actually support the versions we specify in our requirements.
+  # actually support the versions we specify in our requirements
   - SYMFONY_VERSION="2.3.*"
 
 sudo: false
