@@ -3,4 +3,3 @@ wsdl2phpgenerator*.phar
 vendor
 tests/generated
 TAG_MESSAGE
-composer.lock
