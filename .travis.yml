@@ -18,13 +18,13 @@ env:
 sudo: false
 
 before_script:
+  # Update the Symfony version to test against.
+  - composer require symfony/options-resolver:${SYMFONY_VERSION} --no-update
   # Use --prefer-source to download dependencies via git and avoid GitHub API
   # rate limits resulting in 502 HTTP responses, build errors and
   # Composer\Downloader\TransportException.
   # https://github.com/symfony/symfony/issues/4687
   - composer install --dev --no-interaction --prefer-source
-  # Update the Symfony version to test against.
-  - composer require symfony/options-resolver:${SYMFONY_VERSION}
 
 script:
   - mkdir -p build/logs
