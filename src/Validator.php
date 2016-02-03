@@ -238,10 +238,6 @@ class Validator
      */
     public static function validateTypeHint($typeName, $allowClass = false)
     {
-        if (self::isInternalPhpType($typeName)) {
-            return null;
-        }
-
         //TODO: scalar type hints are avalible in PHP7 only
         if (self::isInternalPhpType($typeName)) {
             return null;
@@ -251,7 +247,7 @@ class Validator
         // Going forward we could support it for generated types. The challenge here are enums as they are actually
         // strings and not class instances and we have no way of determining whether the type is an enum at this point.
         if (substr($typeName, -2) == "[]") {
-            return 'array';
+            $typeHint = 'array';
         } elseif ($typeName == '\DateTime') {
             $typeHint = $typeName;
         } else {
@@ -260,10 +256,6 @@ class Validator
             } else {
                 $typeHint = null;
             }
-        }
-
-        if (self::isKeyword($typeHint)) {
-            $typeHint .= self::NAME_SUFFIX;
         }
 
         return $typeHint;
@@ -325,8 +317,9 @@ class Validator
     }
 
     /**
-     * @param string $type
+     * Checks if a string is internal PHP type, e.g. 'int' or 'string'
      *
+     * @param string $type
      * @return bool
      */
     public static function isInternalPhpType($type)
